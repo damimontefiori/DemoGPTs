@@ -1,4 +1,4 @@
-const { BaseProvider } = require('./base');
+const { BaseProvider } = require('./BaseProvider');
 
 /**
  * Adapter para Anthropic Claude models
