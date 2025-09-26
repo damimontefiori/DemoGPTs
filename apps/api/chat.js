@@ -55,92 +55,60 @@ function createProvider(providerType, config = {}) {
  * Maneja streaming mediante Server-Sent Events
  */
 async function handleStreamingChat(provider, messages, options = {}) {
-  return new Promise((resolve, reject) => {
-    let buffer = '';
-    let metadata = null;
+  // Por ahora, para simplificar y evitar errores 502, vamos a usar respuesta no-streaming
+  // pero formateada como Server-Sent Events
+  
+  const headers = {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 
-    // Headers para SSE
-    const headers = {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
+  try {
+    // Usar respuesta no-streaming por ahora
+    const response = await provider.chat({
+      model: options.model || 'gpt-4',
+      messages: messages,
+      temperature: options.temperature || 0.7,
+      maxTokens: options.maxTokens || 2000,
+      stream: false,
+      ...options
+    });
+
+    const chunks = [];
+    
+    // Simular streaming enviando la respuesta completa
+    chunks.push(`data: ${JSON.stringify({
+      type: 'content',
+      content: response.content || response.text || '',
+      delta: response.content || response.text || '',
+      provider: provider.name
+    })}\n\n`);
+
+    chunks.push(`data: ${JSON.stringify({
+      type: 'done',
+      metadata: response.metadata || {},
+      provider: provider.name
+    })}\n\n`);
+
+    return {
+      statusCode: 200,
+      headers,
+      body: chunks.join('')
     };
 
-    try {
-      // Iniciar streaming
-      const stream = provider.streamChat({
-        model: options.model || 'gpt-4',
-        messages: messages,
-        temperature: options.temperature || 0.7,
-        maxTokens: options.maxTokens || 2000,
-        ...options
-      });
-
-      let chunks = [];
-      
-      stream.on('data', (chunk) => {
-        chunks.push(`data: ${JSON.stringify({
-          type: 'content',
-          content: chunk.content || chunk.text || '',
-          delta: chunk.delta || chunk.content || chunk.text || '',
-          provider: provider.name
-        })}\n\n`);
-      });
-
-      stream.on('metadata', (meta) => {
-        metadata = meta;
-        chunks.push(`data: ${JSON.stringify({
-          type: 'metadata',
-          metadata: meta,
-          provider: provider.name
-        })}\n\n`);
-      });
-
-      stream.on('error', (error) => {
-        chunks.push(`data: ${JSON.stringify({
-          type: 'error',
-          error: error.message,
-          provider: provider.name
-        })}\n\n`);
-        
-        chunks.push(`data: ${JSON.stringify({
-          type: 'done'
-        })}\n\n`);
-        
-        reject({
-          statusCode: 500,
-          headers,
-          body: chunks.join('')
-        });
-      });
-
-      stream.on('end', () => {
-        chunks.push(`data: ${JSON.stringify({
-          type: 'done',
-          metadata,
-          provider: provider.name
-        })}\n\n`);
-
-        resolve({
-          statusCode: 200,
-          headers,
-          body: chunks.join('')
-        });
-      });
-
-    } catch (error) {
-      reject({
-        statusCode: 500,
-        headers,
-        body: `data: ${JSON.stringify({
-          type: 'error',
-          error: error.message
-        })}\n\n`
-      });
-    }
-  });
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers,
+      body: `data: ${JSON.stringify({
+        type: 'error',
+        error: error.message
+      })}\n\n`
+    };
+  }
 }
 
 /**
@@ -153,6 +121,7 @@ async function handleNormalChat(provider, messages, options = {}) {
       messages: messages,
       temperature: options.temperature || 0.7,
       maxTokens: options.maxTokens || 2000,
+      stream: false,
       ...options
     });
 

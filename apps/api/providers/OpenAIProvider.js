@@ -18,7 +18,7 @@ class OpenAIProvider extends BaseProvider {
   /**
    * Implementación del chat para OpenAI
    */
-  async chat({ model, messages, temperature = 0.7, stream = true, signal }) {
+  async chat({ model, messages, temperature = 0.7, stream = true, maxTokens = 2000, signal }) {
     this.validateParams({ model, messages, temperature });
     this.debug('Enviando request a OpenAI', { model, messageCount: messages.length, stream });
 
@@ -29,7 +29,7 @@ class OpenAIProvider extends BaseProvider {
       messages: this.formatMessages(messages),
       temperature,
       stream,
-      max_tokens: 2000, // Límite razonable para demo
+      max_tokens: maxTokens,
       user: 'demo-student' // Identificador para tracking
     };
 
