@@ -115,8 +115,13 @@ class BaseProvider {
       throw new Error('El parámetro "temperature" debe estar entre 0 y 2');
     }
 
-    // Validar que todos los mensajes tengan role y content
+    // Validar que todos los mensajes válidos tengan role y content
     params.messages.forEach((msg, index) => {
+      // Ignorar mensajes de error
+      if (msg.isError) {
+        return;
+      }
+      
       if (!msg.role || !msg.content) {
         throw new Error(`Mensaje ${index}: debe tener "role" y "content"`);
       }
