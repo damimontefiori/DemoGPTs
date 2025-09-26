@@ -90,6 +90,11 @@ class AnthropicProvider extends BaseProvider {
     const conversationMessages = [];
     
     for (const message of messages) {
+      // Filtrar mensajes de error
+      if (message.isError) {
+        continue;
+      }
+      
       if (message.role === 'system') {
         // Anthropic maneja system prompts por separado
         systemPrompt = message.content;

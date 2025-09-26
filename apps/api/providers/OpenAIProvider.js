@@ -73,13 +73,15 @@ class OpenAIProvider extends BaseProvider {
   }
 
   /**
-   * OpenAI usa el formato estándar, no necesita transformación
+   * OpenAI usa el formato estándar, filtra mensajes de error
    */
   formatMessages(messages) {
-    return messages.map(msg => ({
-      role: msg.role,
-      content: msg.content
-    }));
+    return messages
+      .filter(msg => !msg.isError) // Filtrar mensajes de error
+      .map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
   }
 
   /**

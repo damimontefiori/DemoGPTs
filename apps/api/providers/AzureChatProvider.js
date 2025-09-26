@@ -84,10 +84,12 @@ class AzureChatProvider extends BaseProvider {
    * Azure OpenAI usa el mismo formato que OpenAI
    */
   formatMessages(messages) {
-    return messages.map(msg => ({
-      role: msg.role,
-      content: msg.content
-    }));
+    return messages
+      .filter(msg => !msg.isError) // Filtrar mensajes de error
+      .map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
   }
 
   /**

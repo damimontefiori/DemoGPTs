@@ -86,6 +86,11 @@ class GeminiProvider extends BaseProvider {
     const contents = [];
     
     for (const message of messages) {
+      // Filtrar mensajes de error
+      if (message.isError) {
+        continue;
+      }
+      
       // Gemini maneja system prompt de forma diferente
       if (message.role === 'system') {
         // El system prompt se puede agregar como parte del primer user message
