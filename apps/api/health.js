@@ -3,7 +3,7 @@
  * Endpoint para verificar el estado de la API
  */
 
-const cors = require('./middlewares/cors');
+const cors = require('./middlewares/simple-cors');
 
 /**
  * Verifica el estado de la API y los proveedores configurados
@@ -91,6 +91,7 @@ exports.handler = async (event, context) => {
       statusCode: allConfigured ? 200 : 206,
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(healthData, null, 2),
     };
@@ -102,6 +103,7 @@ exports.handler = async (event, context) => {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
         status: 'error',

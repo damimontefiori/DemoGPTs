@@ -2,7 +2,7 @@
  * Versión simplificada para debugging del error 502
  */
 
-const cors = require('./middlewares/cors');
+const cors = require('./middlewares/simple-cors');
 
 exports.handler = async (event, context) => {
   // Aplicar CORS
@@ -45,7 +45,10 @@ exports.handler = async (event, context) => {
     // Respuesta de prueba exitosa
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify({
         success: true,
         debug: true,
