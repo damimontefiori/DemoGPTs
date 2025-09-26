@@ -36,9 +36,10 @@ demo-generative-apis/
 │   ├── web/                    # Frontend React + Vite
 │   │   ├── src/
 │   │   │   ├── components/     # Componentes UI
-│   │   │   └── App.jsx         # Componente principal de la aplicación
-│   │   ├── package.json        # Dependencias y scripts del frontend
-│   │   └── vite.config.js      # Configuración de Vite para el proyecto
+│   │   │   ├── services/       # Cliente API
+│   │   │   └── App.jsx         # Componente principal de la aplicación React
+│   │   ├── package.json
+│   │   └── vite.config.js
 │   │
 │   └── api/                    # Netlify Functions
 │       ├── providers/          # Adapters por proveedor

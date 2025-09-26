@@ -79,6 +79,18 @@ function Header() {
                   Última verificación: {lastCheck.toLocaleTimeString()}
                 </p>
               )}
+              
+              {/* Crédito del autor */}
+              <p className="text-xs text-gray-400 mt-1">
+                by <a 
+                  href="https://www.linkedin.com/in/damian-montefiori" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-ai-blue transition-colors duration-200"
+                >
+                  Dami Montefiori
+                </a>
+              </p>
             </div>
 
             <button
