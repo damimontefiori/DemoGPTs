@@ -1,0 +1,37 @@
+{
+  "name": "demo-gpts-api",
+  "version": "1.0.0",
+  "description": "Funciones serverless para Demo GPTs - API integrada con múltiples proveedores de IA",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build process needed for serverless functions'",
+    "test": "echo 'Tests not configured yet'"
+  },
+  "keywords": [
+    "ai",
+    "gpt",
+    "openai",
+    "gemini",
+    "anthropic",
+    "azure",
+    "serverless",
+    "netlify",
+    "education"
+  ],
+  "author": "Demo GPTs Team",
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.20.1",
+    "@google/generative-ai": "^0.2.1",
+    "@anthropic-ai/sdk": "^0.9.1",
+    "axios": "^1.6.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.10.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

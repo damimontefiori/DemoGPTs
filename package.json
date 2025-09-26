@@ -1,0 +1,46 @@
+{
+  "name": "demo-gpts",
+  "version": "1.0.0",
+  "description": "Demo educativo para integración con APIs de modelos generativos de IA",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "cd apps/web && npm run build",
+    "start": "netlify dev",
+    "install-all": "npm install && cd apps/web && npm install && cd ../api && npm install",
+    "clean": "rm -rf node_modules apps/web/node_modules apps/api/node_modules",
+    "test": "echo \"No tests configured yet\" && exit 0"
+  },
+  "keywords": [
+    "ai",
+    "gpt",
+    "openai",
+    "gemini",
+    "anthropic",
+    "claude",
+    "azure",
+    "education",
+    "demo",
+    "api-integration"
+  ],
+  "author": "Demo GPTs Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/demo-gpts.git"
+  },
+  "workspaces": [
+    "apps/web",
+    "apps/api"
+  ],
+  "devDependencies": {
+    "netlify-cli": "^17.10.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2"
+  }
+}

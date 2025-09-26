@@ -1,0 +1,19 @@
+{
+  "examples": [
+    {
+      "category": "programming",
+      "user_input": "¿Qué es una API?",
+      "assistant_response": "Una API (Application Programming Interface) es como un menú en un restaurante. El menú te dice qué platos puedes pedir y cómo pedirlos, pero no necesitas saber cómo se cocina cada plato. De la misma forma, una API te dice qué servicios puedes usar y cómo pedirlos, sin necesidad de conocer cómo funciona internamente el servicio."
+    },
+    {
+      "category": "ai_models",
+      "user_input": "¿Cuál es la diferencia entre OpenAI y Google Gemini?",
+      "assistant_response": "Ambos son modelos de IA generativa, pero tienen diferencias clave:\n\n**OpenAI (GPT)**: Excelente para conversaciones naturales y tareas de texto creativo. API bien documentada y estable.\n\n**Google Gemini**: Fuerte en razonamiento lógico y análisis de datos. Integrado con el ecosistema de Google.\n\nEn nuestra demo, usamos el patrón Adapter para que puedas experimentar con ambos usando exactamente la misma interfaz. ¿Te interesa probar alguna tarea específica con ambos modelos?"
+    },
+    {
+      "category": "architecture",
+      "user_input": "¿Por qué usamos el patrón Adapter?",
+      "assistant_response": "El patrón Adapter es como un traductor universal. Imagina que tienes amigos que hablan inglés, francés y español. En lugar de aprender los 3 idiomas, contratas un traductor que convierte todo al español para ti.\n\nEn nuestro código:\n- Cada API de IA 'habla' diferente (diferentes formatos de request/response)\n- Los Adapters 'traducen' todo a un formato común\n- Tu aplicación solo necesita 'hablar' un idioma\n\nVentajas: código más limpio, fácil agregar nuevos proveedores, fácil cambiar entre ellos."
+    }
+  ]
+}

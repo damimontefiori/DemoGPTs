@@ -1,0 +1,17 @@
+[build]
+  command = "cd apps/web && npm run build"
+  publish = "apps/web/dist"
+
+[functions]
+  directory = "apps/api"
+  node_bundler = "esbuild"
+  included_files = ["lib/prompts/*"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[dev]
+  command = "cd apps/web && npm run dev"
+  port = 5173
