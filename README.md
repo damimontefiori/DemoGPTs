@@ -90,14 +90,40 @@ ANTHROPIC_API_KEY=sk-ant-tu-clave-aqui
 ### 4. Ejecutar en Desarrollo
 
 ```bash
-# Desde el directorio raíz
+# Opción 1: Netlify Dev (completo)
 npm run dev
+# Seleccionar: demo-generative-apis-frontend
 
-# O usando Netlify CLI directamente  
-npx netlify dev
+# Opción 2: Solo frontend (desarrollo rápido)
+cd apps/web && npm run dev
+# Disponible en: http://localhost:5173
 ```
 
-🎉 **¡Aplicación disponible en: http://localhost:8888**
+## 🚀 Despliegue en Producción
+
+### Netlify (Recomendado)
+
+1. **Conectar repositorio:**
+   - Ve a [Netlify](https://netlify.com)
+   - "New site from Git" → GitHub → Selecciona `DemoGPTs`
+
+2. **Configuración de build:**
+   ```
+   Build command: cd apps/web && npm run build
+   Publish directory: apps/web/dist
+   Functions directory: apps/api
+   ```
+
+3. **Variables de entorno:**
+   ```
+   OPENAI_API_KEY=tu-clave-openai
+   GOOGLE_API_KEY=tu-clave-gemini
+   ANTHROPIC_API_KEY=tu-clave-anthropic
+   AZURE_OPENAI_ENDPOINT=tu-endpoint-azure
+   AZURE_OPENAI_API_KEY=tu-clave-azure
+   ```
+
+4. **¡Deploy automático!** 🎉
 
 ## 🔑 Variables de Entorno Requeridas
 
