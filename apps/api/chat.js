@@ -70,7 +70,9 @@ async function handleStreamingChat(provider, messages, options = {}) {
 
     try {
       // Iniciar streaming
-      const stream = provider.streamChat(messages, {
+      const stream = provider.streamChat({
+        model: options.model || 'gpt-4',
+        messages: messages,
         temperature: options.temperature || 0.7,
         maxTokens: options.maxTokens || 2000,
         ...options
@@ -146,7 +148,9 @@ async function handleStreamingChat(provider, messages, options = {}) {
  */
 async function handleNormalChat(provider, messages, options = {}) {
   try {
-    const response = await provider.chat(messages, {
+    const response = await provider.chat({
+      model: options.model || 'gpt-4',
+      messages: messages,
       temperature: options.temperature || 0.7,
       maxTokens: options.maxTokens || 2000,
       ...options
@@ -250,8 +254,19 @@ exports.handler = async (event, context) => {
       provider: providerType, 
       messages, 
       options = {},
-      streaming = false 
+      streaming = false,
+      model,
+      temperature,
+      maxTokens
     } = requestData;
+
+    // Combinar parámetros del nivel superior con options
+    const finalOptions = {
+      ...options,
+      ...(model && { model }),
+      ...(temperature && { temperature }),
+      ...(maxTokens && { maxTokens })
+    };
 
     // Crear instancia del proveedor
     let provider;
@@ -281,9 +296,9 @@ exports.handler = async (event, context) => {
 
     // Procesar según el modo (streaming o normal)
     if (streaming) {
-      return await handleStreamingChat(provider, messages, options);
+      return await handleStreamingChat(provider, messages, finalOptions);
     } else {
-      return await handleNormalChat(provider, messages, options);
+      return await handleNormalChat(provider, messages, finalOptions);
     }
 
   } catch (error) {
