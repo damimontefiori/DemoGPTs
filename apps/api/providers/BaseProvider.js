@@ -28,11 +28,13 @@ class BaseProvider {
    * @returns {Array} Mensajes en formato específico del proveedor
    */
   formatMessages(messages) {
-    // Implementación por defecto: mantener formato estándar
-    return messages.map(msg => ({
-      role: msg.role,
-      content: msg.content
-    }));
+    // Filtrar mensajes de error y mensajes con contenido vacío
+    return messages
+      .filter(msg => !msg.isError && msg.content && msg.content.trim() !== '')
+      .map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
   }
 
   /**
@@ -122,7 +124,7 @@ class BaseProvider {
         return;
       }
       
-      if (!msg.role || !msg.content) {
+      if (!msg.role || (msg.content === undefined || msg.content === null)) {
         throw new Error(`Mensaje ${index}: debe tener "role" y "content"`);
       }
     });
