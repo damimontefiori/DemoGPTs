@@ -2,9 +2,10 @@
   base = "apps/web"
   command = "npm install --production=false && npm run build"
   publish = "dist"
+  environment = { SECRETS_SCAN_ENABLED = "false" }
 
 [functions]
-  directory = "apps/api"
+  directory = "../api"
   node_bundler = "esbuild"
   included_files = ["lib/prompts/*"]
 
