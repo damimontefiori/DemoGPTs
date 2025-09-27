@@ -23,8 +23,10 @@ class AzureChatProvider extends BaseProvider {
    * Implementación del chat para Azure OpenAI
    */
   async chat({ model, messages, temperature = 0.7, stream = true, signal }) {
-    this.validateParams({ model, messages, temperature });
-    this.debug('Enviando request a Azure OpenAI', { model, messageCount: messages.length, stream });
+    // Filtrar mensajes válidos antes de validar y formatear
+    const filteredMessages = this.filterValidMessages(messages);
+    this.validateParams({ model, messages: filteredMessages, temperature });
+    this.debug('Enviando request a Azure OpenAI', { model, messageCount: filteredMessages.length, stream });
 
     const controller = this.createTimeoutController(signal);
     
@@ -32,7 +34,7 @@ class AzureChatProvider extends BaseProvider {
     const deploymentName = model;
     
     const requestBody = {
-      messages: this.formatMessages(messages),
+      messages: this.formatMessages(filteredMessages),
       temperature,
       max_tokens: 2000,
       stream,

@@ -23,18 +23,30 @@ class BaseProvider {
   }
 
   /**
+   * Filtrar mensajes válidos (sin errores y con contenido)
+   * @param {Array} messages - Mensajes sin filtrar
+   * @returns {Array} Mensajes válidos
+   */
+  filterValidMessages(messages) {
+    return messages.filter(msg => 
+      !msg.isError && 
+      msg.content !== undefined && 
+      msg.content !== null && 
+      msg.content.toString().trim() !== ''
+    );
+  }
+
+  /**
    * Normalizar mensajes al formato del proveedor
    * @param {Array} messages - Mensajes en formato estándar
    * @returns {Array} Mensajes en formato específico del proveedor
    */
   formatMessages(messages) {
-    // Filtrar mensajes de error y mensajes con contenido vacío
-    return messages
-      .filter(msg => !msg.isError && msg.content && msg.content.trim() !== '')
-      .map(msg => ({
-        role: msg.role,
-        content: msg.content
-      }));
+    // Implementación por defecto: mantener formato estándar
+    return messages.map(msg => ({
+      role: msg.role,
+      content: msg.content
+    }));
   }
 
   /**
@@ -117,14 +129,16 @@ class BaseProvider {
       throw new Error('El parámetro "temperature" debe estar entre 0 y 2');
     }
 
+    // Filtrar mensajes válidos antes de validar
+    const validMessages = this.filterValidMessages(params.messages);
+    
+    if (validMessages.length === 0) {
+      throw new Error('No hay mensajes válidos para procesar');
+    }
+
     // Validar que todos los mensajes válidos tengan role y content
-    params.messages.forEach((msg, index) => {
-      // Ignorar mensajes de error
-      if (msg.isError) {
-        return;
-      }
-      
-      if (!msg.role || (msg.content === undefined || msg.content === null)) {
+    validMessages.forEach((msg, index) => {
+      if (!msg.role || !msg.content) {
         throw new Error(`Mensaje ${index}: debe tener "role" y "content"`);
       }
     });

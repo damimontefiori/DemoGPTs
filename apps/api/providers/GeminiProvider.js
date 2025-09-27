@@ -19,13 +19,15 @@ class GeminiProvider extends BaseProvider {
    * Implementación del chat para Gemini
    */
   async chat({ model, messages, temperature = 0.7, stream = true, signal }) {
-    this.validateParams({ model, messages, temperature });
-    this.debug('Enviando request a Gemini', { model, messageCount: messages.length, stream });
+    // Filtrar mensajes válidos antes de validar y formatear
+    const filteredMessages = this.filterValidMessages(messages);
+    this.validateParams({ model, messages: filteredMessages, temperature });
+    this.debug('Enviando request a Gemini', { model, messageCount: filteredMessages.length, stream });
 
     const controller = this.createTimeoutController(signal);
     
     // Gemini tiene un formato diferente para los mensajes
-    const contents = this.formatMessages(messages);
+    const contents = this.formatMessages(filteredMessages);
     
     const requestBody = {
       contents,

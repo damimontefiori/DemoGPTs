@@ -19,13 +19,15 @@ class AnthropicProvider extends BaseProvider {
    * Implementación del chat para Anthropic Claude
    */
   async chat({ model, messages, temperature = 0.7, stream = true, signal }) {
-    this.validateParams({ model, messages, temperature });
-    this.debug('Enviando request a Anthropic', { model, messageCount: messages.length, stream });
+    // Filtrar mensajes válidos antes de validar y formatear
+    const filteredMessages = this.filterValidMessages(messages);
+    this.validateParams({ model, messages: filteredMessages, temperature });
+    this.debug('Enviando request a Anthropic', { model, messageCount: filteredMessages.length, stream });
 
     const controller = this.createTimeoutController(signal);
     
     // Separar system prompt del resto de mensajes
-    const { systemPrompt, conversationMessages } = this.formatMessages(messages);
+    const { systemPrompt, conversationMessages } = this.formatMessages(filteredMessages);
     
     const requestBody = {
       model,
