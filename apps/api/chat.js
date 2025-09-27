@@ -1,6 +1,24 @@
 /**
  * Chat Function - Netlify Function (Simplified)
- * Endpoint simplificado para chat sin middlewares complejos
+ * Endpoint simplifica    const {
+      providerType,
+      messages, 
+      options = {},
+      streaming = false,
+      model,
+      temperature = 0.7,
+      maxTokens = 2000
+    } = requestData;
+
+    // Usar modelos por defecto apropiados para cada provider si no se especifica
+    const defaultModels = {
+      'openai': 'gpt-4o-mini',
+      'gemini': 'gemini-1.5-pro',
+      'anthropic': 'claude-3-5-sonnet',
+      'azure': 'gpt-4o-mini'
+    };
+    
+    const finalModel = model || defaultModels[providerType] || 'gpt-4o-mini';hat sin middlewares complejos
  * Updated: Force redeploy to apply environment variables
  */
 
@@ -85,7 +103,7 @@ exports.handler = async (event, context) => {
       maxTokens = 2000
     } = requestData;
 
-    console.log('Processing chat request:', { providerType, messageCount: messages.length, model });
+    console.log('Processing chat request:', { providerType, messageCount: messages.length, model: finalModel });
 
     // Debug de variables de entorno
     console.log('Environment variables check:', {
@@ -177,11 +195,11 @@ exports.handler = async (event, context) => {
 
     // Llamada directa al provider sin funciones intermedias
     try {
-      console.log('Calling provider with params:', { model, temperature, maxTokens });
+      console.log('Calling provider with params:', { model: finalModel, temperature, maxTokens });
       
       // Usar parámetros mínimos primero
       const response = await provider.chat({
-        model: model,
+        model: finalModel,
         messages: cleanMessages,  // Usar mensajes filtrados
         temperature: temperature,
         maxTokens: maxTokens,
