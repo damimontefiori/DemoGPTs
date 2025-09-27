@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "netlify dev",
-    "build": "cd apps/web && npm run build",
+    "build": "npm run build --workspace=demo-generative-apis-frontend",
+    "build:web": "cd apps/web && npm run build",
     "start": "netlify dev",
     "install-all": "npm install && cd apps/web && npm install && cd ../api && npm install",
     "clean": "rm -rf node_modules apps/web/node_modules apps/api/node_modules",
