@@ -5,10 +5,10 @@
  */
 
 // Importar solo los adaptadores necesarios
-const OpenAIProvider = require('./providers/OpenAIProvider');
-const GeminiProvider = require('./providers/GeminiProvider');
-const AnthropicProvider = require('./providers/AnthropicProvider');
-const AzureChatProvider = require('./providers/AzureChatProvider');
+const { OpenAIProvider } = require('./providers/OpenAIProvider');
+const { GeminiProvider } = require('./providers/GeminiProvider');
+const { AnthropicProvider } = require('./providers/AnthropicProvider');
+const { AzureChatProvider } = require('./providers/AzureChatProvider');
 
 
 
