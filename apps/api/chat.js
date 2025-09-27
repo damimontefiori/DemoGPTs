@@ -1,6 +1,7 @@
 /**
  * Chat Function - Netlify Function (Simplified)
  * Endpoint simplificado para chat sin middlewares complejos
+ * Updated: Force redeploy to apply environment variables
  */
 
 // Importar solo los adaptadores necesarios
