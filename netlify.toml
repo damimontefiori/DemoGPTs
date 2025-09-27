@@ -1,6 +1,6 @@
 [build]
   base = "apps/web"
-  command = "npm install && npm run build"
+  command = "npm install --production=false && npm run build"
   publish = "dist"
 
 [functions]
